@@ -1,26 +1,78 @@
-import React, { useRef } from "react";
-import { AiOutlineClose } from "react-icons/ai";
+import React from "react";
+import {
+  AiFillCarryOut,
+  AiOutlineClose,
+  AiOutlineMinusCircle,
+  AiOutlinePlusCircle,
+} from "react-icons/ai";
+import { BsBagCheckFill } from "react-icons/bs";
 
-const SideBarCart = () => {
-  const ref = useRef();
-  const toggleCart = () => {};
+const SideBarCart = (props) => {
   return (
     <div
-      ref={ref}
-      className="sideBarCart absolute top-0 right-0 bg-zinc-900 p-10 text-white"
+      ref={props.refer}
+      className="w-72 h-full sideBarCart absolute top-0 right-0 bg-zinc-900 px-8 py-10 text-white transform transition-transform translate-x-full"
     >
-      <h2 className="font-bold text-xl">Shopping Cart</h2>
+      <h2 className="font-bold text-xl text-center">Shopping Cart</h2>
       <span
-        onClick={toggleCart}
+        onClick={props.toggleCart}
         className="absolute top-2 right-2 cursor-pointer text-2xl"
       >
         <AiOutlineClose />
       </span>
-      <ol>
+      <ol className="list-decimal font-semibold">
         <li>
-          <span>T-shirt - wear the clothes</span>
+          <div className="item flex my-3">
+            <div className="w-2/3 font-semibold">
+              T-shirt - wear the clothes
+            </div>
+            <div className="w-2/1 flex items-center justify-center text-lg">
+              <AiOutlineMinusCircle className="cursor-pointer" />{" "}
+              <span className="mx-2 text-sm">1</span>
+              <AiOutlinePlusCircle className="cursor-pointer" />
+            </div>
+          </div>
+        </li>
+        <li>
+          <div className="item flex my-3">
+            <div className="w-2/3 font-semibold">
+              T-shirt - wear the clothes
+            </div>
+            <div className="w-2/1 flex items-center justify-center text-lg">
+              <AiOutlineMinusCircle className="cursor-pointer" />{" "}
+              <span className="mx-2 text-sm">1</span>
+              <AiOutlinePlusCircle className="cursor-pointer" />
+            </div>
+          </div>
+        </li>
+        <li>
+          <div className="item flex my-3">
+            <div className="w-2/3 font-semibold">
+              T-shirt - wear the clothes
+            </div>
+            <div className="w-2/1 flex items-center justify-center text-lg">
+              <AiOutlineMinusCircle className="cursor-pointer" />{" "}
+              <span className="mx-2 text-sm">1</span>
+              <AiOutlinePlusCircle className="cursor-pointer" />
+            </div>
+          </div>
+        </li>
+        <li>
+          <div className="item flex my-3">
+            <div className="w-2/3 font-semibold">
+              T-shirt - wear the clothes
+            </div>
+            <div className="w-2/1 flex items-center justify-center text-lg">
+              <AiOutlineMinusCircle className="cursor-pointer" />{" "}
+              <span className="mx-2 text-sm">1</span>
+              <AiOutlinePlusCircle className="cursor-pointer" />
+            </div>
+          </div>
         </li>
       </ol>
+      <button class="flex  mt-16 text-black bg-slate-200 border-0 py-2 px-5 focus:outline-none hover:bg-stone-950 hover:text-white rounded text-sm">
+        <BsBagCheckFill className="m-0.5" /> Checkout
+      </button>
     </div>
   );
 };
