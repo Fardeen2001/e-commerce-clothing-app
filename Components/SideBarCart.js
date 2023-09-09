@@ -70,9 +70,14 @@ const SideBarCart = (props) => {
           </div>
         </li>
       </ol>
-      <button class="flex  mt-16 text-black bg-slate-200 border-0 py-2 px-5 focus:outline-none hover:bg-stone-950 hover:text-white rounded text-sm">
-        <BsBagCheckFill className="m-0.5" /> Checkout
-      </button>
+      <div className="flex">
+        <button class="flex  mr-2 text-black bg-slate-200 border-0 p-2 focus:outline-none hover:bg-stone-600 hover:text-white rounded text-sm">
+          <BsBagCheckFill className="m-0.5" /> Checkout
+        </button>
+        <button class="flex  mr-2 text-black bg-slate-200 border-0 p-2 focus:outline-none hover:bg-stone-600 hover:text-white rounded text-sm">
+          Clear Cart
+        </button>
+      </div>
     </div>
   );
 };
