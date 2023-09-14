@@ -1,7 +1,48 @@
+"use client";
+import { cartActions } from "@/ReduxStore/cart";
 import pic from "@/public/hoodie.webp";
 import Image from "next/image";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 const Products = ({ params }) => {
+  const dispatch = useDispatch();
   const id = params.productsId;
+  const [pin, setPin] = useState();
+  const [service, setService] = useState();
+  const pinChangeHandler = (e) => {
+    setPin(e.target.value);
+  };
+  const checkServiceHandler = async () => {
+    try {
+      const res = await fetch("http://localhost:3000/api/pincode", {
+        next: { revalidate: 0 },
+        cache: "no-cache",
+      });
+      if (!res.ok) {
+        throw new Error("invalid");
+      }
+      const pincodes = await res.json();
+      if (pincodes.includes(+pin)) {
+        setService(true);
+      } else {
+        setService(false);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  const addToCartHandler = () => {
+    dispatch(
+      cartActions.addToCart({
+        itemCode: "a1",
+        name: "hoodie",
+        price: 599,
+        size: "S",
+        varient: "black",
+      })
+    );
+  };
+
   return (
     <>
       <section className="text-gray-600 body-font overflow-hidden">
@@ -161,7 +202,13 @@ const Products = ({ params }) => {
                 <span className="title-font font-medium text-2xl text-gray-900">
                   ₹580.00
                 </span>
-                <button className="flex ml-auto text-white bg-black border-0 py-2 px-6 focus:outline-none hover:bg-black rounded">
+                <button className="flex ml-auto text-sm md:text-base text-white bg-black border-0 py-2 px-2 md:px-6 focus:outline-none hover:bg-black rounded">
+                  Buy Now
+                </button>
+                <button
+                  onClick={addToCartHandler}
+                  className="flex ml-auto text-sm md:text-base text-white bg-black border-0 py-2 px-2 md:px-6 focus:outline-none hover:bg-black rounded"
+                >
                   Add to cart
                 </button>
                 <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
@@ -177,6 +224,33 @@ const Products = ({ params }) => {
                   </svg>
                 </button>
               </div>
+              <div className="pin flex mt-6 space-x-2 text-sm">
+                <input
+                  type="number"
+                  name="pin"
+                  id="pin"
+                  placeholder="check your pincode"
+                  className="px-2 border-2 border-gray-500 rounded"
+                  onChange={pinChangeHandler}
+                  value={pin}
+                />
+                <button
+                  onClick={checkServiceHandler}
+                  className=" text-white bg-black border-0 py-2 px-6 focus:outline-none hover:bg-black rounded"
+                >
+                  Check
+                </button>
+              </div>
+              {!service && service != null && (
+                <div className="text-red-700 text-sm mt-3">
+                  Sorry! we do not deliver to this pincode yet
+                </div>
+              )}
+              {service && service != null && (
+                <div className="text-green-700 text-sm mt-3">
+                  yay! This pincode is servicable
+                </div>
+              )}
             </div>
           </div>
         </div>

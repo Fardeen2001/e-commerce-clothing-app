@@ -1,26 +1,22 @@
 "use client";
 import Image from "next/image";
-import React, { useRef } from "react";
+import React from "react";
 import logo from "../public/clothtext logo.png";
 import Link from "next/link";
 import { AiOutlineShoppingCart } from "react-icons/ai";
+import { MdAccountCircle } from "react-icons/md";
 import SideBarCart from "./SideBarCart";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleCartActions } from "@/ReduxStore/openCart";
 
 const NavBar = () => {
-  const ref = useRef(null);
-  const toggleCart = () => {
-    if (ref.current) {
-      if (ref.current.classList.contains("translate-x-full")) {
-        ref.current.classList.remove("translate-x-full");
-        ref.current.classList.add("translate-x-0");
-      } else if (!ref.current.classList.contains("translate-x-full")) {
-        ref.current.classList.remove("translate-x-0");
-        ref.current.classList.add("translate-x-full");
-      }
-    }
+  const dispatch = useDispatch();
+  const toggleCart = useSelector((state) => state.toggleCart.isCartOpen);
+  const toggleCartHandler = () => {
+    dispatch(toggleCartActions.togleCart());
   };
   return (
-    <div className="flex flex-col md:flex-row justify-center md:justify-start items-center py-2 shadow-xl">
+    <div className="flex flex-col md:flex-row justify-center md:justify-start items-center py-2 shadow-xl sticky top-0 z-10 bg-white">
       <div className="logo">
         <Link href={"/"}>
           <Image
@@ -49,13 +45,17 @@ const NavBar = () => {
           </Link>
         </ul>
       </div>
-      <div
-        onClick={toggleCart}
-        className="cart absolute right-0 top-4 mx-5 cursor-pointer"
-      >
-        <AiOutlineShoppingCart className="text-xl md:text-4xl" />
+      <div className="cart flex absolute right-0 top-4 mx-5 cursor-pointer">
+        <Link href={"/login"}>
+          {" "}
+          <MdAccountCircle className="text-xl md:text-4xl mx-2" />
+        </Link>
+        <AiOutlineShoppingCart
+          onClick={toggleCartHandler}
+          className="text-xl md:text-4xl"
+        />
       </div>
-      <SideBarCart toggleCart={toggleCart} refer={ref} />
+      {toggleCart && <SideBarCart />}
     </div>
   );
 };
