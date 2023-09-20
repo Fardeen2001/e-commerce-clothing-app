@@ -31,17 +31,17 @@ const NavBar = () => {
       <div className="nav">
         <ul className="flex space-x-4 font-bold text-md">
           <Link href={"/tshirts"}>
-            <li>Tshirts</li>
+            <li className="hover:text-gray-500">Tshirts</li>
           </Link>
           <Link href={"/hoodies"}>
-            <li>Hoodies</li>
+            <li className="hover:text-gray-500">Hoodies</li>
           </Link>
           <Link href={"/stickers"}>
-            <li>Stickers</li>
+            <li className="hover:text-gray-500">Stickers</li>
           </Link>
           <Link href={"/mugs"}>
             {" "}
-            <li>Mugs</li>
+            <li className="hover:text-gray-500">Mugs</li>
           </Link>
         </ul>
       </div>

@@ -7,14 +7,18 @@ import Providers from "@/ReduxStore/Provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata = {
-  title: "ClothWears.com - wear the clothes",
-  description: "ClothWears.com - wear the clothes",
-};
-
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>
+        <title>ClothWears.com - wear the clothes</title>
+        <meta name="description" content="ClothWears.com - wear the clothes" />
+        <link
+          rel="shortcut icon"
+          href="@/public/favicon.ico"
+          type="image/x-icon"
+        />
+      </head>
       <body className={inter.className}>
         <Providers>
           <NavBar />

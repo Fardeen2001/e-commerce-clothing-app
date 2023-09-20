@@ -18,14 +18,14 @@ const SideBarCart = () => {
   const clearHandler = () => {
     dispatch(cartActions.clearCart());
   };
-  const AddQuantityHandler = (id) => {
-    dispatch(cartActions.addToCart({ itemCode: id, price: 599 }));
+  const AddQuantityHandler = (id, price) => {
+    dispatch(cartActions.addToCart({ itemCode: id, price: price }));
   };
   const removeQuantityHandler = (id) => {
     dispatch(cartActions.removeFromCart(id));
   };
   return (
-    <div className="w-72 h-[100vh] sideBarCart absolute top-0 right-0 bg-zinc-900 px-8 py-10 text-white">
+    <div className="w-72 h-[100vh] sideBarCart overflow-y-scroll absolute top-0 right-0 bg-zinc-900 px-8 py-10 text-white">
       <h2 className="font-bold text-xl text-center">Shopping Cart</h2>
       <span
         onClick={() => {
@@ -57,7 +57,7 @@ const SideBarCart = () => {
                   <AiOutlinePlusCircle
                     className="cursor-pointer"
                     onClick={() => {
-                      AddQuantityHandler(item.itemCode);
+                      AddQuantityHandler(item.itemCode, item.price);
                     }}
                   />
                 </div>

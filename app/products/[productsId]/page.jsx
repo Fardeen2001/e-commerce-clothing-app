@@ -1,11 +1,14 @@
 "use client";
 import { cartActions } from "@/ReduxStore/cart";
-import pic from "@/public/hoodie.webp";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Products = ({ params }) => {
+  const router = useRouter();
   const dispatch = useDispatch();
   const [color, setColor] = useState();
   const [size, setSize] = useState();
@@ -59,8 +62,28 @@ const Products = ({ params }) => {
       const pincodes = await res.json();
       if (pincodes.includes(+pin)) {
         setService(true);
+        toast.success("Your pincode is serviceable", {
+          position: "bottom-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
       } else {
         setService(false);
+        toast.error("Sorry!, Your pincode is not serviceable", {
+          position: "bottom-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
       }
     } catch (error) {
       console.log(error.message);
@@ -77,6 +100,11 @@ const Products = ({ params }) => {
         varient: color,
       })
     );
+    toast("Item added to cart");
+  };
+  const buyNowHandler = (id, title, color, size, price) => {
+    dispatch(cartActions.clearCart());
+    addToCartHandler(id, title, color, size, price);
   };
   const getAllAvailableSizes = () => {
     const sizes = new Set();
@@ -105,12 +133,27 @@ const Products = ({ params }) => {
   return (
     <>
       <section className="text-gray-600 body-font overflow-hidden">
+        <ToastContainer
+          position="bottom-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
         <div className="container px-5 py-16 mx-auto">
           <div className="lg:w-4/5 mx-auto flex flex-wrap">
             <Image
               alt="ecommerce"
               className="lg:w-1/2 w-full lg:h-auto px-24 object-fill object-top rounded"
-              src={pic}
+              src={productData && productData.image}
+              quality={100}
+              width={100}
+              height={100}
             />
             <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
               <h2 className="text-sm title-font text-gray-500 tracking-widest">
@@ -274,7 +317,19 @@ const Products = ({ params }) => {
                 <span className="title-font font-medium text-2xl text-gray-900">
                   ₹{productData && productData.price}
                 </span>
-                <button className="flex ml-auto text-sm md:text-base text-white bg-black border-0 py-2 px-2 md:px-6 focus:outline-none hover:bg-black rounded">
+                <button
+                  onClick={() => {
+                    buyNowHandler(
+                      productData._id,
+                      productData.title,
+                      color,
+                      size,
+                      productData.price
+                    );
+                    router.push("/checkout");
+                  }}
+                  className="flex ml-auto text-sm md:text-base text-white bg-black border-0 py-2 px-2 md:px-6 focus:outline-none hover:bg-black rounded"
+                >
                   Buy Now
                 </button>
                 <button

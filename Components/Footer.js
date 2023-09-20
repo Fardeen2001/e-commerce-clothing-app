@@ -21,115 +21,120 @@ const Footer = () => {
               />
             </Link>
             <p className="mt-2 text-sm text-gray-500 px-4">
-              Air plant banjo lyft occupy retro adaptogen indego
+              Wear the best quality clothes from ClothWears.com - premium
+              T-Shirts, Hoodies and Apparals
             </p>
           </div>
           <div className="flex-grow flex flex-wrap md:pl-20 -mb-10 md:mt-0 mt-10 md:text-left text-center">
             <div className="lg:w-1/4 md:w-1/2 w-full px-4">
               <h2 className="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">
-                CATEGORIES
+                SHOP
               </h2>
               <nav className="list-none mb-10">
                 <li>
-                  <a className="text-gray-600 hover:text-gray-800">
-                    First Link
-                  </a>
+                  <Link
+                    href={"/tshirts"}
+                    className="text-gray-600 hover:text-gray-800"
+                  >
+                    T-Shirts
+                  </Link>
                 </li>
                 <li>
-                  <a className="text-gray-600 hover:text-gray-800">
-                    Second Link
-                  </a>
+                  <Link
+                    href={"/hoodies"}
+                    className="text-gray-600 hover:text-gray-800"
+                  >
+                    Hoodies
+                  </Link>
                 </li>
                 <li>
-                  <a className="text-gray-600 hover:text-gray-800">
-                    Third Link
-                  </a>
+                  <Link
+                    href={"/mugs"}
+                    className="text-gray-600 hover:text-gray-800"
+                  >
+                    Mugs
+                  </Link>
                 </li>
                 <li>
-                  <a className="text-gray-600 hover:text-gray-800">
-                    Fourth Link
-                  </a>
+                  <Link
+                    href={"/stickers"}
+                    className="text-gray-600 hover:text-gray-800"
+                  >
+                    Stickers
+                  </Link>
                 </li>
               </nav>
             </div>
             <div className="lg:w-1/4 md:w-1/2 w-full px-4">
               <h2 className="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">
-                CATEGORIES
+                ABOUT
               </h2>
               <nav className="list-none mb-10">
                 <li>
-                  <a className="text-gray-600 hover:text-gray-800">
-                    First Link
-                  </a>
+                  <Link
+                    href={"/Contact"}
+                    className="text-gray-600 hover:text-gray-800"
+                  >
+                    Contact Us
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href={"/about"}
+                    className="text-gray-600 hover:text-gray-800"
+                  >
+                    About Us
+                  </Link>
                 </li>
                 <li>
                   <a className="text-gray-600 hover:text-gray-800">
-                    Second Link
+                    Became a seller
                   </a>
                 </li>
                 <li>
-                  <a className="text-gray-600 hover:text-gray-800">
-                    Third Link
-                  </a>
-                </li>
-                <li>
-                  <a className="text-gray-600 hover:text-gray-800">
-                    Fourth Link
-                  </a>
+                  <a className="text-gray-600 hover:text-gray-800">Wholesale</a>
                 </li>
               </nav>
             </div>
             <div className="lg:w-1/4 md:w-1/2 w-full px-4">
               <h2 className="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">
-                CATEGORIES
+                HELP
               </h2>
               <nav className="list-none mb-10">
                 <li>
+                  <a className="text-gray-600 hover:text-gray-800">Payments</a>
+                </li>
+                <li>
                   <a className="text-gray-600 hover:text-gray-800">
-                    First Link
+                    Report Frauds
                   </a>
                 </li>
                 <li>
                   <a className="text-gray-600 hover:text-gray-800">
-                    Second Link
+                    Cancellation and returns
                   </a>
                 </li>
                 <li>
-                  <a className="text-gray-600 hover:text-gray-800">
-                    Third Link
-                  </a>
-                </li>
-                <li>
-                  <a className="text-gray-600 hover:text-gray-800">
-                    Fourth Link
-                  </a>
+                  <a className="text-gray-600 hover:text-gray-800">FAQ</a>
                 </li>
               </nav>
             </div>
             <div className="lg:w-1/4 md:w-1/2 w-full px-4">
               <h2 className="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">
-                CATEGORIES
+                Social
               </h2>
               <nav className="list-none mb-10">
                 <li>
-                  <a className="text-gray-600 hover:text-gray-800">
-                    First Link
-                  </a>
+                  <a className="text-gray-600 hover:text-gray-800">Facebook</a>
                 </li>
                 <li>
-                  <a className="text-gray-600 hover:text-gray-800">
-                    Second Link
-                  </a>
+                  <a className="text-gray-600 hover:text-gray-800">Twitter</a>
                 </li>
                 <li>
-                  <a className="text-gray-600 hover:text-gray-800">
-                    Third Link
-                  </a>
+                  <a className="text-gray-600 hover:text-gray-800">Instagram</a>
                 </li>
                 <li>
-                  <a className="text-gray-600 hover:text-gray-800">
-                    Fourth Link
-                  </a>
+                  <a className="text-gray-600 hover:text-gray-800">Youtube</a>
                 </li>
               </nav>
             </div>
@@ -138,14 +143,14 @@ const Footer = () => {
         <div className="bg-gray-100">
           <div className="container mx-auto py-4 px-5 flex flex-wrap flex-col sm:flex-row">
             <p className="text-gray-500 text-sm text-center sm:text-left">
-              © 2020 Tailblocks —
+              © 2023 ClothWears.com —
               <a
-                href="https://twitter.com/knyttneve"
+                href="https://twitter.com/fardeen2001"
                 rel="noopener noreferrer"
                 className="text-gray-600 ml-1"
                 target="_blank"
               >
-                @knyttneve
+                @ClothWears
               </a>
             </p>
             <span className="inline-flex sm:ml-auto sm:mt-0 mt-2 justify-center sm:justify-start">

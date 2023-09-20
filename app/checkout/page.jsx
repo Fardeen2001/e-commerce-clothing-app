@@ -7,8 +7,9 @@ const CheckOut = () => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.items);
   const total = useSelector((state) => state.cart.totalAmount);
-  const AddQuantityHandler = (id) => {
-    dispatch(cartActions.addToCart({ itemCode: id }));
+  const AddQuantityHandler = (id, price) => {
+    console.log(id);
+    dispatch(cartActions.addToCart({ itemCode: id, price: price }));
   };
   const removeQuantityHandler = (id) => {
     dispatch(cartActions.removeFromCart(id));
@@ -151,7 +152,7 @@ const CheckOut = () => {
                   <AiOutlinePlusCircle
                     className="cursor-pointer"
                     onClick={() => {
-                      AddQuantityHandler(item.itemCode);
+                      AddQuantityHandler(item.itemCode, item.price);
                     }}
                   />
                 </div>
