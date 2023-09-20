@@ -5,8 +5,9 @@ import { NextResponse, NextRequest } from "next/server";
 export async function GET(request) {
   await mongoose.connect(process.env.MONGO_URI);
   let products = await Product.find();
+  let tshirtsCat = products.filter((item) => item.category === "T-Shirt");
   let tshirts = {};
-  for (let items of products) {
+  for (let items of tshirtsCat) {
     if (items.title in tshirts) {
       if (
         !tshirts[items.title].varient.includes(items.varient) &&
@@ -28,7 +29,7 @@ export async function GET(request) {
       }
     }
   }
-
+  mongoose.disconnect();
   return new Response(
     JSON.stringify({
       tshirts,
