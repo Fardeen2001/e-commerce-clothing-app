@@ -2,11 +2,46 @@
 import { cartActions } from "@/ReduxStore/cart";
 import pic from "@/public/hoodie.webp";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+
 const Products = ({ params }) => {
   const dispatch = useDispatch();
-  const id = params.productsId;
+  const [color, setColor] = useState();
+  const [size, setSize] = useState();
+  const [varient, setvarient] = useState();
+  const [productData, setProductData] = useState();
+
+  const productId = params.productsId;
+
+  const fetchProductData = async () => {
+    try {
+      const res = await fetch(
+        `http://localhost:3000/api/productDetail/${productId}`,
+        {
+          next: { revalidate: 0 },
+          cache: "no-store",
+        }
+      );
+      if (!res.ok) {
+        throw new Error("invaild Data");
+      }
+      const data = await res.json();
+      if (res.ok) {
+        setProductData(data.product);
+        setColor(data.product.varient);
+        setSize(data.product.size);
+        setvarient(data.colorSlug);
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+  useEffect(() => {
+    fetchProductData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const [pin, setPin] = useState();
   const [service, setService] = useState();
   const pinChangeHandler = (e) => {
@@ -31,16 +66,40 @@ const Products = ({ params }) => {
       console.log(error.message);
     }
   };
-  const addToCartHandler = () => {
+
+  const addToCartHandler = (id, title, color, size, price) => {
     dispatch(
       cartActions.addToCart({
-        itemCode: "a1",
-        name: "hoodie",
-        price: 599,
-        size: "S",
-        varient: "black",
+        itemCode: id,
+        name: title,
+        price: price,
+        size: size,
+        varient: color,
       })
     );
+  };
+  const getAllAvailableSizes = () => {
+    const sizes = new Set();
+
+    for (const color in varient) {
+      for (const size in varient[color]) {
+        sizes.add(size);
+      }
+    }
+
+    return Array.from(sizes);
+  };
+
+  const getAvailableColorsForSize = (size) => {
+    const availableColors = [];
+    if (varient) {
+      for (const color in varient) {
+        if (varient[color][size]) {
+          availableColors.push(color);
+        }
+      }
+    }
+    return availableColors;
   };
 
   return (
@@ -55,11 +114,14 @@ const Products = ({ params }) => {
             />
             <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
               <h2 className="text-sm title-font text-gray-500 tracking-widest">
-                BRAND NAME
+                ClothWears.com
               </h2>
               <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">
-                The Catcher in the Rye
+                {productData && productData.title}
               </h1>
+              <h2 className="text-gray-900 text-xl title-font mb-1">
+                ({productData && color} and {productData && size})
+              </h2>
               <div className="flex mb-4">
                 <span className="flex items-center">
                   <svg
@@ -159,28 +221,38 @@ const Products = ({ params }) => {
                 </span>
               </div>
               <p className="leading-relaxed">
-                Fam locavore kickstarter distillery. Mixtape chillwave tumeric
-                sriracha taximy chia microdosing tilde DIY. XOXO fam indxgo
-                juiceramps cornhole raw denim forage brooklyn. Everyday carry +1
-                seitan poutine tumeric. Gastropub blue bottle austin listicle
-                pour-over, neutra jean shorts keytar banjo tattooed umami
-                cardigan.
+                {productData && productData.description}
               </p>
               <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
                 <div className="flex">
                   <span className="mr-3">Color</span>
-                  <button className="border-2 border-gray-300 rounded-full w-6 h-6 focus:outline-none"></button>
-                  <button className="border-2 border-gray-300 ml-1 bg-gray-700 rounded-full w-6 h-6 focus:outline-none"></button>
-                  <button className="border-2 border-gray-300 ml-1 bg-black rounded-full w-6 h-6 focus:outline-none"></button>
+                  {getAvailableColorsForSize(size).map((colorOption) => (
+                    <button
+                      key={colorOption}
+                      className={`border-2 rounded-full w-6 h-6 mx-1 focus:outline-none ${
+                        color === colorOption
+                          ? "border-black"
+                          : "border-gray-300"
+                      }`}
+                      style={{ backgroundColor: colorOption }}
+                      onClick={() => setColor(colorOption)}
+                    ></button>
+                  ))}
                 </div>
                 <div className="flex ml-6 items-center">
                   <span className="mr-3">Size</span>
                   <div className="relative">
-                    <select className="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-black focus:border-black text-base pl-3 pr-10">
-                      <option>SM</option>
-                      <option>M</option>
-                      <option>L</option>
-                      <option>XL</option>
+                    <select
+                      value={size}
+                      onChange={(e) => setSize(e.target.value)}
+                      className="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-black focus:border-black text-base pl-3 pr-10"
+                    >
+                      <option value="">Select Size</option>
+                      {getAllAvailableSizes().map((sizeOption) => (
+                        <option key={sizeOption} value={sizeOption}>
+                          {sizeOption}
+                        </option>
+                      ))}
                     </select>
                     <span className="absolute right-0 top-0 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center">
                       <svg
@@ -200,13 +272,21 @@ const Products = ({ params }) => {
               </div>
               <div className="flex">
                 <span className="title-font font-medium text-2xl text-gray-900">
-                  ₹580.00
+                  ₹{productData && productData.price}
                 </span>
                 <button className="flex ml-auto text-sm md:text-base text-white bg-black border-0 py-2 px-2 md:px-6 focus:outline-none hover:bg-black rounded">
                   Buy Now
                 </button>
                 <button
-                  onClick={addToCartHandler}
+                  onClick={() => {
+                    addToCartHandler(
+                      productData._id,
+                      productData.title,
+                      color,
+                      size,
+                      productData.price
+                    );
+                  }}
                   className="flex ml-auto text-sm md:text-base text-white bg-black border-0 py-2 px-2 md:px-6 focus:outline-none hover:bg-black rounded"
                 >
                   Add to cart
