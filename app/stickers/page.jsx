@@ -67,6 +67,11 @@ const Stickers = async () => {
                             className={`border-2 border-gray-300 bg-white rounded-full w-6 h-6 mx-1 focus:outline-none`}
                           ></button>
                         )}
+                        {Object.values(item.varient).includes("beige") && (
+                          <button
+                            className={`border-2 border-gray-300 bg-amber-50 rounded-full w-6 h-6 mx-1 focus:outline-none`}
+                          ></button>
+                        )}
                         {Object.values(item.varient).includes("red") && (
                           <button
                             className={`border-2 border-gray-300 bg-red-700 rounded-full w-6 h-6 mx-1 focus:outline-none`}

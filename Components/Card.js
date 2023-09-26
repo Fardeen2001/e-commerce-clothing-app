@@ -15,15 +15,15 @@ const Card = (props) => {
         {Object.values(props.Data.tshirts) &&
           Object.values(props.Data.tshirts).map((item) => (
             <div key={item._id}>
-              <section className="text-gray-600 body-font">
-                <div className="container p-5 mx-auto">
+              <section className="text-gray-600  body-font ">
+                <div className="container  p-5 mx-auto">
                   <Link
                     href={`/products/${item.slug}`}
                     className="block relative  rounded overflow-hidden shadow-lg"
                   >
                     <Image
                       alt={item.title}
-                      className="object-cover object-top w-full h-full block"
+                      className="object-fill object-top w-full h-full block"
                       src={item.image}
                       width={100}
                       height={100}
@@ -54,9 +54,19 @@ const Card = (props) => {
                             className={`border-2 border-gray-300 bg-white rounded-full w-6 h-6 mx-1 focus:outline-none`}
                           ></button>
                         )}
+                        {Object.values(item.varient).includes("brown") && (
+                          <button
+                            className={`border-2 border-gray-300 bg-amber-950 rounded-full w-6 h-6 mx-1 focus:outline-none`}
+                          ></button>
+                        )}
                         {Object.values(item.varient).includes("red") && (
                           <button
                             className={`border-2 border-gray-300 bg-red-700 rounded-full w-6 h-6 mx-1 focus:outline-none`}
+                          ></button>
+                        )}
+                        {Object.values(item.varient).includes("beige") && (
+                          <button
+                            className={`border-2 border-gray-300 bg-amber-50 rounded-full w-6 h-6 mx-1 focus:outline-none`}
                           ></button>
                         )}
                         {Object.values(item.varient).includes("blue") && (

@@ -54,7 +54,7 @@ const CheckOut = () => {
       <div className="px-2 w-full">
         <div className=" mb-2">
           <label htmlFor="address" className="leading-7 text-sm text-gray-600">
-            Email
+            Address
           </label>
           <textarea
             name="address"

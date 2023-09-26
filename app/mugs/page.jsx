@@ -77,6 +77,11 @@ const Mugs = async () => {
                             className={`border-2 border-gray-300 bg-blue-700 rounded-full w-6 h-6 mx-1 focus:outline-none`}
                           ></button>
                         )}
+                        {Object.values(item.varient).includes("beige") && (
+                          <button
+                            className={`border-2 border-gray-300 bg-amber-50 rounded-full w-6 h-6 mx-1 focus:outline-none`}
+                          ></button>
+                        )}
                         {Object.values(item.varient).includes("yellow") && (
                           <button
                             className={`border-2 border-gray-300 bg-yellow-700 rounded-full w-6 h-6 mx-1 focus:outline-none`}

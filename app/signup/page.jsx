@@ -1,10 +1,80 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import pic from "@/public/logo.png";
+import { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
 
 const SignUp = () => {
+  const [name, setname] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch("http://localhost:3000/api/signup", {
+        method: "POST",
+        body: JSON.stringify({
+          name: name,
+          email: email,
+          password: password,
+        }),
+        headers: { "Content-Type": "application/json" },
+        next: { revalidate: 0 },
+        cache: "no-cache",
+      });
+      if (!res.ok) {
+        throw new Error("Invaild while signup");
+      }
+      await res.json();
+      if (res.ok) {
+        toast.success("Your Account Created successfully", {
+          position: "bottom-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+        setname("");
+        setEmail("");
+        setPassword("");
+      }
+    } catch (error) {
+      console.error(error.message);
+      toast.error("Signed up successfully", {
+        position: "bottom-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+      setname("");
+      setEmail("");
+      setPassword("");
+    }
+  };
   return (
     <div>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
       <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <Image
@@ -18,7 +88,7 @@ const SignUp = () => {
           </h2>
         </div>
         <div className="mt-2 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6">
+          <form className="space-y-6" onSubmit={submitHandler}>
             <div>
               <label
                 for="name"
@@ -33,6 +103,10 @@ const SignUp = () => {
                   type="text"
                   autocomplete="text"
                   required
+                  onChange={(e) => {
+                    setname(e.target.value);
+                  }}
+                  value={name}
                   className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -51,6 +125,10 @@ const SignUp = () => {
                   type="email"
                   autocomplete="email"
                   required
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                  value={email}
                   className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -72,6 +150,10 @@ const SignUp = () => {
                   type="password"
                   autocomplete="current-password"
                   required
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                  value={password}
                   className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
