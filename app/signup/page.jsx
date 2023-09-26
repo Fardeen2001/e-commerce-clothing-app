@@ -46,7 +46,7 @@ const SignUp = () => {
       }
     } catch (error) {
       console.error(error.message);
-      toast.error("Signed up successfully", {
+      toast.error("invalid while sign up", {
         position: "bottom-right",
         autoClose: 2000,
         hideProgressBar: false,
