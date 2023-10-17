@@ -6,8 +6,10 @@ import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/navigation";
 
 const SignUp = () => {
+  const router = useRouter();
   const [name, setname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -40,9 +42,13 @@ const SignUp = () => {
           progress: undefined,
           theme: "colored",
         });
-        setname("");
-        setEmail("");
-        setPassword("");
+
+        setTimeout(() => {
+          router.push("/login");
+          setname("");
+          setEmail("");
+          setPassword("");
+        }, 2000);
       }
     } catch (error) {
       console.error(error.message);
@@ -91,7 +97,7 @@ const SignUp = () => {
           <form className="space-y-6" onSubmit={submitHandler}>
             <div>
               <label
-                for="name"
+                htmlFor="name"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
                 Full Name
@@ -101,7 +107,7 @@ const SignUp = () => {
                   id="name"
                   name="text"
                   type="text"
-                  autocomplete="text"
+                  autoComplete="text"
                   required
                   onChange={(e) => {
                     setname(e.target.value);
@@ -113,7 +119,7 @@ const SignUp = () => {
             </div>
             <div>
               <label
-                for="email"
+                htmlFor="email"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
                 Email address
@@ -123,7 +129,7 @@ const SignUp = () => {
                   id="email"
                   name="email"
                   type="email"
-                  autocomplete="email"
+                  autoComplete="email"
                   required
                   onChange={(e) => {
                     setEmail(e.target.value);
@@ -137,7 +143,7 @@ const SignUp = () => {
             <div>
               <div className="flex items-center justify-between">
                 <label
-                  for="password"
+                  htmlFor="password"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
                   Password
@@ -148,7 +154,7 @@ const SignUp = () => {
                   id="password"
                   name="password"
                   type="password"
-                  autocomplete="current-password"
+                  autoComplete="current-password"
                   required
                   onChange={(e) => {
                     setPassword(e.target.value);

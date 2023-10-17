@@ -1,12 +1,14 @@
 import User from "@/models/User";
 import mongoose from "mongoose";
+var CryptoJS = require("crypto-js");
 import { NextResponse, NextRequest } from "next/server";
 
 export async function POST(req) {
   await mongoose.connect(process.env.MONGO_URI);
-  const userData = await req.json();
+  const { name, email, password } = await req.json();
+  var ciphertext = CryptoJS.AES.encrypt(password, "fardeen9113").toString();
 
-  let user = new User(userData);
+  let user = new User({ name, email, password: ciphertext });
   await user.save();
   mongoose.disconnect();
   try {

@@ -5,7 +5,9 @@ import Link from "next/link";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 const Login = () => {
+  const route = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const loginHandler = async (e) => {
@@ -22,10 +24,12 @@ const Login = () => {
         cache: "no-store",
       });
       const data = await res.json();
+      console.log(data);
       if (!res.ok) {
         throw new Error(data.error);
       }
       if (res.ok) {
+        localStorage.setItem("token", data.token);
         toast.success("Logged In successfully", {
           position: "bottom-right",
           autoClose: 2000,
@@ -36,8 +40,12 @@ const Login = () => {
           progress: undefined,
           theme: "colored",
         });
-        setEmail("");
-        setPassword("");
+
+        setTimeout(() => {
+          setEmail("");
+          setPassword("");
+          route.push("/");
+        }, 2000);
       }
     } catch (error) {
       console.error(error.message);
@@ -86,7 +94,7 @@ const Login = () => {
           <form className="space-y-6" onSubmit={loginHandler}>
             <div>
               <label
-                for="email"
+                htmlFor="email"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
                 Email address
@@ -96,7 +104,7 @@ const Login = () => {
                   id="email"
                   name="email"
                   type="email"
-                  autocomplete="email"
+                  autoComplete="email"
                   onChange={(e) => {
                     setEmail(e.target.value);
                   }}
@@ -110,7 +118,7 @@ const Login = () => {
             <div>
               <div className="flex items-center justify-between">
                 <label
-                  for="password"
+                  htmlFor="password"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
                   Password
@@ -129,7 +137,7 @@ const Login = () => {
                   id="password"
                   name="password"
                   type="password"
-                  autocomplete="current-password"
+                  autoComplete="current-password"
                   required
                   onChange={(e) => {
                     setPassword(e.target.value);

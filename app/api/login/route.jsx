@@ -1,5 +1,7 @@
 import User from "@/models/User";
 import mongoose from "mongoose";
+var CryptoJS = require("crypto-js");
+var jwt = require("jsonwebtoken");
 import { NextResponse, NextRequest } from "next/server";
 
 export async function POST(req) {
@@ -8,13 +10,22 @@ export async function POST(req) {
   const { email, password } = await req.json();
 
   const user = await User.findOne({ email: email });
+  // const user = users.filter((item) => {
+  //   item.email !== email;
+  // });
+  var bytes = CryptoJS.AES.decrypt(user.password, "fardeen9113");
+  var originalText = bytes.toString(CryptoJS.enc.Utf8);
 
   if (user) {
-    if (email === user.email && password === user.password) {
-      return NextResponse.json(
+    if (email === user.email && password === originalText) {
+      var token = jwt.sign(
         { success: true, email: user.email, name: user.name },
-        { status: 201 }
+        "fardeen9113",
+        { expiresIn: "1d" },
+        { iat: "1d" }
       );
+
+      return NextResponse.json({ token }, { status: 200 });
     } else {
       return NextResponse.json(
         { success: false, error: "invalid Credentials" },
