@@ -9,10 +9,12 @@ export async function POST(req) {
 
   const { email, password } = await req.json();
 
-  const user = await User.findOne({ email: email });
-  // const user = users.filter((item) => {
-  //   item.email !== email;
-  // });
+  const user =
+    (await User.findOne({ email: email })) ||
+    (await User.find().filter((item) => {
+      item.email !== email;
+    }));
+  console.log(user);
   var bytes = CryptoJS.AES.decrypt(user.password, "fardeen9113");
   var originalText = bytes.toString(CryptoJS.enc.Utf8);
 

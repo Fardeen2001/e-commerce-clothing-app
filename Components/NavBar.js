@@ -9,7 +9,7 @@ import SideBarCart from "./SideBarCart";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleCartActions } from "@/ReduxStore/openCart";
 
-const NavBar = () => {
+const NavBar = ({ user }) => {
   const dispatch = useDispatch();
   const toggleCart = useSelector((state) => state.toggleCart.isCartOpen);
   const toggleCartHandler = () => {
@@ -46,9 +46,10 @@ const NavBar = () => {
         </ul>
       </div>
       <div className="cart flex absolute right-0 top-4 mx-5 cursor-pointer">
+        {user.value && <MdAccountCircle className="text-xl md:text-4xl mx-2" />}
         <Link href={"/login"}>
           {" "}
-          <MdAccountCircle className="text-xl md:text-4xl mx-2" />
+          <button>Login</button>
         </Link>
         <AiOutlineShoppingCart
           onClick={toggleCartHandler}
