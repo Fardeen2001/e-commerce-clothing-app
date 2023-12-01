@@ -47,10 +47,12 @@ const NavBar = ({ user }) => {
       </div>
       <div className="cart flex absolute right-0 top-4 mx-5 cursor-pointer">
         {user.value && <MdAccountCircle className="text-xl md:text-4xl mx-2" />}
-        <Link href={"/login"}>
-          {" "}
-          <button>Login</button>
-        </Link>
+        {!user.value && (
+          <Link href={"/login"}>
+            {" "}
+            <button className="bg-slate-200">Login</button>
+          </Link>
+        )}
         <AiOutlineShoppingCart
           onClick={toggleCartHandler}
           className="text-xl md:text-4xl"

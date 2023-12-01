@@ -14,7 +14,6 @@ export async function POST(req) {
     (await User.find().filter((item) => {
       item.email !== email;
     }));
-  console.log(user);
   var bytes = CryptoJS.AES.decrypt(user.password, "fardeen9113");
   var originalText = bytes.toString(CryptoJS.enc.Utf8);
 
