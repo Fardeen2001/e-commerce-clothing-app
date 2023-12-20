@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import logo from "../public/clothtext logo.png";
 import Link from "next/link";
 import { AiOutlineShoppingCart } from "react-icons/ai";
@@ -9,12 +9,14 @@ import SideBarCart from "./SideBarCart";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleCartActions } from "@/ReduxStore/openCart";
 
-const NavBar = ({ user }) => {
+const NavBar = () => {
   const dispatch = useDispatch();
   const toggleCart = useSelector((state) => state.toggleCart.isCartOpen);
+  const user = useSelector((state) => state.auth.token);
   const toggleCartHandler = () => {
     dispatch(toggleCartActions.togleCart());
   };
+  const toggleDropDown = () => {};
   return (
     <div className="flex flex-col md:flex-row justify-center md:justify-start items-center py-2 shadow-xl sticky top-0 z-10 bg-white">
       <div className="logo">
@@ -46,11 +48,19 @@ const NavBar = ({ user }) => {
         </ul>
       </div>
       <div className="cart flex absolute right-0 top-4 mx-5 cursor-pointer">
-        {user.value && <MdAccountCircle className="text-xl md:text-4xl mx-2" />}
-        {!user.value && (
+        {user && (
+          <MdAccountCircle
+            onMouseOver={toggleDropDown}
+            onMouseLeave={toggleDropDown}
+            className="text-xl md:text-4xl mx-2"
+          />
+        )}
+        {!user && (
           <Link href={"/login"}>
             {" "}
-            <button className="bg-slate-200">Login</button>
+            <button className="bg-slate-200 p-2 mx-2 rounded-xl font-bold hover:text-slate-50 hover:bg-slate-800">
+              Login
+            </button>
           </Link>
         )}
         <AiOutlineShoppingCart

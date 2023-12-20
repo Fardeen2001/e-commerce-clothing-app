@@ -6,10 +6,13 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { authSliceAction } from "@/ReduxStore/auth";
 const Login = () => {
   const route = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
   const loginHandler = async (e) => {
     e.preventDefault();
     try {
@@ -28,7 +31,7 @@ const Login = () => {
         throw new Error(data.error);
       }
       if (res.ok) {
-        localStorage.setItem("token", data.token);
+        dispatch(authSliceAction.isLogin(data.token));
         toast.success("Logged In successfully", {
           position: "bottom-right",
           autoClose: 2000,
