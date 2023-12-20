@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import logo from "../public/clothtext logo.png";
 import Link from "next/link";
 import { AiOutlineShoppingCart } from "react-icons/ai";
@@ -8,15 +8,17 @@ import { MdAccountCircle } from "react-icons/md";
 import SideBarCart from "./SideBarCart";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleCartActions } from "@/ReduxStore/openCart";
+import { authSliceAction } from "@/ReduxStore/auth";
 
 const NavBar = () => {
   const dispatch = useDispatch();
   const toggleCart = useSelector((state) => state.toggleCart.isCartOpen);
   const user = useSelector((state) => state.auth.token);
+  const [dropdown, setDropdown] = useState(false);
   const toggleCartHandler = () => {
     dispatch(toggleCartActions.togleCart());
   };
-  const toggleDropDown = () => {};
+
   return (
     <div className="flex flex-col md:flex-row justify-center md:justify-start items-center py-2 shadow-xl sticky top-0 z-10 bg-white">
       <div className="logo">
@@ -48,10 +50,42 @@ const NavBar = () => {
         </ul>
       </div>
       <div className="cart flex absolute right-0 top-4 mx-5 cursor-pointer">
+        {dropdown && user && (
+          <div
+            onMouseOver={() => {
+              setDropdown(true);
+            }}
+            onMouseLeave={() => {
+              setDropdown(false);
+            }}
+            className="absolute right-9 top-5 md:right-16 md:top-8 py-2 px-5 w-36 bg-zinc-900 text-white rounded-md"
+          >
+            <ul>
+              <Link href={"/profile"}>
+                {" "}
+                <li className="py-1 hover:text-gray-400">Profile</li>
+              </Link>
+              <Link href={"/orders"}>
+                <li className="py-1 hover:text-gray-400">Orders</li>
+              </Link>
+              <button
+                onClick={() => {
+                  dispatch(authSliceAction.logout());
+                }}
+              >
+                <li className="py-1 hover:text-gray-400">Logout</li>
+              </button>
+            </ul>
+          </div>
+        )}
         {user && (
           <MdAccountCircle
-            onMouseOver={toggleDropDown}
-            onMouseLeave={toggleDropDown}
+            onMouseOver={() => {
+              setDropdown(true);
+            }}
+            onMouseLeave={() => {
+              setDropdown(false);
+            }}
             className="text-xl md:text-4xl mx-2"
           />
         )}
@@ -68,6 +102,7 @@ const NavBar = () => {
           className="text-xl md:text-4xl"
         />
       </div>
+
       {toggleCart && <SideBarCart />}
     </div>
   );
