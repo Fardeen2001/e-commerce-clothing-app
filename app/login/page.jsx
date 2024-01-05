@@ -8,11 +8,17 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { authSliceAction } from "@/ReduxStore/auth";
+import { useEffect } from "react";
 const Login = () => {
   const route = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      route.push("/");
+    }
+  }, [route]);
   const loginHandler = async (e) => {
     e.preventDefault();
     try {

@@ -13,6 +13,11 @@ const SignUp = () => {
   const [name, setname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      router.push("/");
+    }
+  }, [router]);
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
