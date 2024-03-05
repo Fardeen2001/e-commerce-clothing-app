@@ -6,7 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { authSliceAction } from "@/ReduxStore/auth";
 import { useEffect } from "react";
 const Login = () => {
@@ -14,15 +14,16 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
+  const isLoggedInToken = useSelector((state) => state.auth.token);
   useEffect(() => {
-    if (localStorage.getItem("token")) {
+    if (isLoggedInToken) {
       route.push("/");
     }
-  }, [route]);
+  }, [isLoggedInToken]);
   const loginHandler = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://localhost:3000/api/login", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/login`, {
         method: "POST",
         body: JSON.stringify({
           email: email,

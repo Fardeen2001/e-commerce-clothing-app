@@ -1,7 +1,7 @@
 import Card from "@/Components/Card";
 const GetDataFunction = async () => {
   try {
-    const res = await fetch("http://localhost:3000/api/tshirts", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/tshirts`, {
       next: { revalidate: 0 },
       cache: "no-store",
     });

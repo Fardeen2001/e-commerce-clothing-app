@@ -9,6 +9,7 @@ export default function Home() {
         alt="poster"
         quality={100}
         style={{ width: "100vw", maxHeight: "72vh" }}
+        priority
       />
       <section className="text-gray-600 body-font">
         <div className="container px-5 py-5 mx-auto">

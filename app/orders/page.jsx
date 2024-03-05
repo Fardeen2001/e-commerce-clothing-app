@@ -1,56 +1,72 @@
-import Image from "next/image";
-import pic from "@/public/hoodie.webp";
+"use client";
+import React from "react";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 const Orders = () => {
+  const isLoggedInToken = useSelector((state) => state.auth.token);
+  useEffect(() => {
+    if (!isLoggedInToken) {
+      route.push("/");
+    }
+  }, [isLoggedInToken]);
   return (
-    <section className="text-gray-600 body-font overflow-hidden">
-      <div className="container px-5 py-24 mx-auto">
-        <div className="lg:w-4/5 mx-auto flex flex-wrap">
-          <div className="lg:w-1/2 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
-            <h2 className="text-sm title-font text-gray-500 tracking-widest">
-              Clothwear.com
-            </h2>
-            <h1 className="text-gray-900 text-3xl title-font font-medium mb-4">
-              Order Id : #854899754
-            </h1>
+    <div className="container w-[80vw] mx-auto">
+      <h1 className="font-semibold text-center text-2xl p-8">My Orders</h1>
 
-            <p className="leading-relaxed mb-4">Order Placed Successfully!</p>
-            <div className="flex mb-4">
-              <a className="flex-grow border-b border-gray-300 py-2 text-lg px-1">
-                Item Description
-              </a>
-              <a className="flex-grow border-b border-gray-300 py-2 text-lg px-1">
-                Quantity
-              </a>
-              <a className="flex-grow border-b border-gray-300 py-2 text-lg px-1">
-                Item Total
-              </a>
-            </div>
-            <div className="flex border-b border-gray-200 py-2">
-              <span className="text-gray-500">Wear the code (black/s)</span>
-              <span className="ml-auto text-gray-500">1</span>
-              <span className="ml-auto text-gray-500">499 </span>
-            </div>
-
-            <div className="flex my-5">
-              <span className="title-font font-medium text-2xl text-gray-900">
-                $58.00
-              </span>
-              <button className="flex ml-auto   text-black bg-slate-200 hover:bg-stone-600 hover:text-white border-0 py-2 px-6 focus:outline-none rounded">
-                Track Order
-              </button>
+      <div className="flex flex-col">
+        <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+            <div className="overflow-hidden">
+              <table className="min-w-full text-left text-sm font-light">
+                <thead className="border-b font-medium dark:border-neutral-500">
+                  <tr>
+                    <th scope="col" className="px-6 py-4">
+                      #
+                    </th>
+                    <th scope="col" className="px-6 py-4">
+                      First
+                    </th>
+                    <th scope="col" className="px-6 py-4">
+                      Last
+                    </th>
+                    <th scope="col" className="px-6 py-4">
+                      Handle
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-500">
+                    <td className="whitespace-nowrap px-6 py-4 font-medium">
+                      1
+                    </td>
+                    <td className="whitespace-nowrap px-6 py-4">Mark</td>
+                    <td className="whitespace-nowrap px-6 py-4">Otto</td>
+                    <td className="whitespace-nowrap px-6 py-4">@mdo</td>
+                  </tr>
+                  <tr className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-500">
+                    <td className="whitespace-nowrap px-6 py-4 font-medium">
+                      2
+                    </td>
+                    <td className="whitespace-nowrap px-6 py-4">Jacob</td>
+                    <td className="whitespace-nowrap px-6 py-4">Thornton</td>
+                    <td className="whitespace-nowrap px-6 py-4">@fat</td>
+                  </tr>
+                  <tr className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-500">
+                    <td className="whitespace-nowrap px-6 py-4 font-medium">
+                      3
+                    </td>
+                    <td className="whitespace-nowrap px-6 py-4">Larry</td>
+                    <td className="whitespace-nowrap px-6 py-4">Wild</td>
+                    <td className="whitespace-nowrap px-6 py-4">@twitter</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
-          <Image
-            alt="ecommerce"
-            className="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded"
-            src={pic}
-            width={100}
-            height={100}
-          />
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 

@@ -1,5 +1,7 @@
 "use client";
 import { cartActions } from "@/ReduxStore/cart";
+import Head from "next/head";
+import Script from "next/script";
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -16,7 +18,13 @@ const CheckOut = () => {
   };
   return (
     <div className="container w-[70vw] m-auto">
-      {" "}
+      <Head>
+        <meta
+          name="viewport"
+          content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0"
+        />
+      </Head>
+      <Script></Script>
       <h1 className="font-bold text-3xl my-8 text-center">Checkout</h1>{" "}
       <h2 className="text-xl font-bold">Delivery Details</h2>
       <div className="mx-auto flex my-4">

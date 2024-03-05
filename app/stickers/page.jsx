@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 const GetDataFunction = async () => {
   try {
-    const res = await fetch("http://localhost:3000/api/stickers", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/stickers`, {
       next: { revalidate: 0 },
       cache: "no-store",
     });

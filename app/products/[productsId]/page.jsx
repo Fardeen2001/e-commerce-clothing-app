@@ -20,7 +20,7 @@ const Products = ({ params }) => {
   const fetchProductData = async () => {
     try {
       const res = await fetch(
-        `http://localhost:3000/api/productDetail/${productId}`,
+        `${process.env.NEXT_PUBLIC_HOST}/api/productDetail/${productId}`,
         {
           next: { revalidate: 0 },
           cache: "no-store",
@@ -52,7 +52,7 @@ const Products = ({ params }) => {
   };
   const checkServiceHandler = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/pincode", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/pincode`, {
         next: { revalidate: 0 },
         cache: "no-cache",
       });

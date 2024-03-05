@@ -1,15 +1,19 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import pic from "@/public/logo.png";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 const Forgot = () => {
-  const router = useRouter();
+  const route = useRouter();
+  const isLoggedInToken = useSelector((state) => state.auth.token);
   useEffect(() => {
-    if (localStorage.getItem("token")) {
-      router.push("/");
+    if (isLoggedInToken) {
+      route.push("/");
     }
-  }, [router]);
+  }, [isLoggedInToken]);
   return (
     <div>
       <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">

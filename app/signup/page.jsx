@@ -2,26 +2,28 @@
 import Image from "next/image";
 import Link from "next/link";
 import pic from "@/public/logo.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
 
 const SignUp = () => {
-  const router = useRouter();
+  const route = useRouter();
   const [name, setname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const isLoggedInToken = useSelector((state) => state.auth.token);
   useEffect(() => {
-    if (localStorage.getItem("token")) {
-      router.push("/");
+    if (isLoggedInToken) {
+      route.push("/");
     }
-  }, [router]);
+  }, [isLoggedInToken]);
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://localhost:3000/api/signup", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/signup`, {
         method: "POST",
         body: JSON.stringify({
           name: name,
