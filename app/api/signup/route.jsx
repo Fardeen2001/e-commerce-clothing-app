@@ -6,7 +6,10 @@ import { NextResponse, NextRequest } from "next/server";
 export async function POST(req) {
   await mongoose.connect(process.env.MONGO_URI);
   const { name, email, password } = await req.json();
-  var ciphertext = CryptoJS.AES.encrypt(password, "fardeen9113").toString();
+  var ciphertext = CryptoJS.AES.encrypt(
+    password,
+    `${process.env.AES_SECRET}`
+  ).toString();
 
   let user = new User({ name, email, password: ciphertext });
   await user.save();

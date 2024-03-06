@@ -51,7 +51,7 @@ const SignUp = () => {
         });
 
         setTimeout(() => {
-          router.push("/login");
+          route.push("/login");
           setname("");
           setEmail("");
           setPassword("");

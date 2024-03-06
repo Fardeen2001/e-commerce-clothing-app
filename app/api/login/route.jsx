@@ -14,14 +14,14 @@ export async function POST(req) {
     (await User.find().filter((item) => {
       item.email !== email;
     }));
-  var bytes = CryptoJS.AES.decrypt(user.password, "fardeen9113");
+  var bytes = CryptoJS.AES.decrypt(user.password, `${process.env.AES_SECRET}`);
   var originalText = bytes.toString(CryptoJS.enc.Utf8);
 
   if (user) {
     if (email === user.email && password === originalText) {
       var token = jwt.sign(
         { success: true, email: user.email, name: user.name },
-        "fardeen9113",
+        `${process.env.AES_SECRET}`,
         { expiresIn: "1d" },
         { iat: "1d" }
       );
