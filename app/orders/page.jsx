@@ -1,13 +1,37 @@
 "use client";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
+import { useState } from "react";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
 const Orders = () => {
   const isLoggedInToken = useSelector((state) => state.auth.token);
+  const route = useRouter();
+  const [allOrders, setAllOrders] = useState([]);
+  const fetchOrders = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/orders`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token }),
+      });
+      if (!res.ok) {
+        throw new Error("orders not found");
+      }
+      const data = await res.json();
+      setAllOrders(data.orders);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   useEffect(() => {
     if (!isLoggedInToken) {
       route.push("/");
+    } else {
+      fetchOrders();
     }
   }, [isLoggedInToken]);
   return (
@@ -22,44 +46,39 @@ const Orders = () => {
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>
                     <th scope="col" className="px-6 py-4">
-                      #
+                      #Order Id
                     </th>
                     <th scope="col" className="px-6 py-4">
-                      First
+                      Items
                     </th>
                     <th scope="col" className="px-6 py-4">
-                      Last
+                      Total Amount
                     </th>
                     <th scope="col" className="px-6 py-4">
-                      Handle
+                      Details
                     </th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-500">
-                    <td className="whitespace-nowrap px-6 py-4 font-medium">
-                      1
-                    </td>
-                    <td className="whitespace-nowrap px-6 py-4">Mark</td>
-                    <td className="whitespace-nowrap px-6 py-4">Otto</td>
-                    <td className="whitespace-nowrap px-6 py-4">@mdo</td>
-                  </tr>
-                  <tr className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-500">
-                    <td className="whitespace-nowrap px-6 py-4 font-medium">
-                      2
-                    </td>
-                    <td className="whitespace-nowrap px-6 py-4">Jacob</td>
-                    <td className="whitespace-nowrap px-6 py-4">Thornton</td>
-                    <td className="whitespace-nowrap px-6 py-4">@fat</td>
-                  </tr>
-                  <tr className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-500">
-                    <td className="whitespace-nowrap px-6 py-4 font-medium">
-                      3
-                    </td>
-                    <td className="whitespace-nowrap px-6 py-4">Larry</td>
-                    <td className="whitespace-nowrap px-6 py-4">Wild</td>
-                    <td className="whitespace-nowrap px-6 py-4">@twitter</td>
-                  </tr>
+                  {allOrders?.map((item) => (
+                    <tr
+                      key={item._id}
+                      className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-300"
+                    >
+                      <td className="whitespace-nowrap px-6 py-4 font-medium">
+                        #{item?.orderId}
+                      </td>
+                      <td className="whitespace-nowrap px-6 py-4">
+                        {item?.products.length}
+                      </td>
+                      <td className="whitespace-nowrap px-6 py-4">
+                        {item?.amount}
+                      </td>
+                      <td className="whitespace-nowrap px-6 py-4">
+                        <Link href={`/orders/${item?._id}`}>See Details</Link>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
