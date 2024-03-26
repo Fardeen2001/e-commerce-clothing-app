@@ -1,5 +1,6 @@
 "use client";
 import { cartActions } from "@/ReduxStore/cart";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,6 +18,7 @@ const CheckOut = () => {
   const [pincode, setPincode] = useState("");
   // const [disabled, setDisabled] = useState(true);
   const dispatch = useDispatch();
+  const router = useRouter();
   const cartItems = useSelector((state) => state.cart.items);
   const total = useSelector((state) => state.cart.totalAmount);
   const AddQuantityHandler = (id, price) => {
@@ -64,7 +66,7 @@ const CheckOut = () => {
           }
           if (response.ok) {
             const postCheckData = await response.json();
-            console.log(postCheckData);
+            router.push(`/orders/${postCheckData?.data?._id}`);
           }
         } catch (error) {
           console.error(error);
